@@ -54,6 +54,15 @@ class Cheeses extends React.Component {
       <ScrollView>
         <View style={styles.container}>
           <Text style={styles.title}>Cheeses</Text>
+          {this.filterList(cheeseList.sort((a, b) => (a.name > b.name) ? 1 : -1)).map((cheeseItem, index) => (
+            <View key={index} style={styles.cheeseContainer}>
+              <View style={styles.cheese} >
+                <UserAvatar size={40} name= {cheeseItem.name.charAt(0)} />
+                <Text style={styles.cheeseTitle} onPress={() => this.setCheese(cheeseItem)}> {cheeseItem.name} </Text>
+              </View>
+              <Text style={styles.cheeseDesc} > {cheeseItem.description}</Text>
+            </View>
+          ))}
           <TouchableHighlight style={styles.button}>
             <Text style={styles.buttonText} onPress={this.showHideMenu}>{this.state.menuTitle}</Text>
           </TouchableHighlight>
@@ -71,15 +80,6 @@ class Cheeses extends React.Component {
             <View style={styles.line}/>
           </View>
           ) : null}
-          {this.filterList(cheeseList.sort((a, b) => (a.name > b.name) ? 1 : -1)).map((cheeseItem, index) => (
-            <View key={index} style={styles.cheeseContainer}>
-              <View style={styles.cheese} >
-                <UserAvatar size={40} name= {cheeseItem.name.charAt(0)} />
-                <Text style={styles.cheeseTitle} onPress={() => this.setCheese(cheeseItem)}> {cheeseItem.name} </Text>
-              </View>
-              <Text style={styles.cheeseDesc} > {cheeseItem.description}</Text>
-            </View>
-          ))}
         </View>
       </ScrollView>
     )
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 12,
+    marginTop: 25,
     borderRadius: 3,
   },
   buttonText: {
