@@ -14,7 +14,6 @@ class CheeseDetail extends React.Component {
   }
 
   render() {
-    const cheese = this.props.cheese;
     return(
       <View style={styles.cheeseContainer}>
         <View style={styles.cheese} >

@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { addCheese} from '../actions/actions';
-
 import {
   StyleSheet,
   Text,
@@ -89,6 +88,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
+    fontSize: 20,
     fontFamily: 'Avenir-Roman',
   },
 });

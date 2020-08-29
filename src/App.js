@@ -26,7 +26,6 @@ const AppContainer = createAppContainer(AppNavigator);
 class App extends Component {
 
   render() {
-
     return (
       <Provider store={store}>
         <AppContainer/>

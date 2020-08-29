@@ -1,19 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import UserAvatar from 'react-native-user-avatar';
+import Searcher from './Searcher';
+import Adder from './Adder';
+import { selectCheese} from '../actions/actions';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableHighlight,
-  Image,
   ScrollView,
 } from 'react-native';
-import UserAvatar from 'react-native-user-avatar';
-import Searcher from './Searcher';
-import Adder from './Adder';
-import { selectCheese} from '../actions/actions';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 
 class Cheeses extends React.Component {
@@ -50,16 +49,17 @@ class Cheeses extends React.Component {
 
   render() {
     const cheeseList = this.props.cheeses;
+
     return (
       <ScrollView>
-      <View style={styles.container}>
-      <Text style={styles.title}>Cheeses</Text>
-      <TouchableHighlight style={styles.button}>
-        <Text style={styles.buttonText} onPress={this.showHideMenu}>{this.state.menuTitle}</Text>
-      </TouchableHighlight>
-        {this.state.show ? (
+        <View style={styles.container}>
+          <Text style={styles.title}>Cheeses</Text>
+          <TouchableHighlight style={styles.button}>
+            <Text style={styles.buttonText} onPress={this.showHideMenu}>{this.state.menuTitle}</Text>
+          </TouchableHighlight>
+          {this.state.show ? (
           <View>
-          <View style={styles.line}/>
+            <View style={styles.line}/>
             <View style={styles.searchContainer}>
               <Text style={styles.searchTitle}>1. Search for your favorite cheese</Text>
               <TextInput
@@ -70,17 +70,17 @@ class Cheeses extends React.Component {
             <Adder/>
             <View style={styles.line}/>
           </View>
-        ) : null}
-        {this.filterList(cheeseList).map((cheeseItem, index) => (
-          <View key={index} style={styles.cheeseContainer}>
-            <View style={styles.cheese} >
-              <UserAvatar size={40} name= {cheeseItem.name.charAt(0)} />
-              <Text style={styles.cheeseTitle} onPress={() => this.setCheese(cheeseItem)}> {cheeseItem.name} </Text>
+          ) : null}
+          {this.filterList(cheeseList.sort((a, b) => (a.name > b.name) ? 1 : -1)).map((cheeseItem, index) => (
+            <View key={index} style={styles.cheeseContainer}>
+              <View style={styles.cheese} >
+                <UserAvatar size={40} name= {cheeseItem.name.charAt(0)} />
+                <Text style={styles.cheeseTitle} onPress={() => this.setCheese(cheeseItem)}> {cheeseItem.name} </Text>
+              </View>
+              <Text style={styles.cheeseDesc} > {cheeseItem.description}</Text>
             </View>
-            <Text style={styles.cheeseDesc} > {cheeseItem.description}</Text>
-          </View>
-        ))}
-      </View>
+          ))}
+        </View>
       </ScrollView>
     )
   }
@@ -156,8 +156,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginTop: 15,
     marginBottom: 10,
-    marginLeft: 30,
-    marginRight: 30,
+    marginLeft: 20,
+    marginRight: 20,
   }
 });
 
