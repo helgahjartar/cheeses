@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import { Button, View, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
 import { connect } from 'react-redux';
 import UserAvatar from 'react-native-user-avatar';
 import { deleteCheese} from '../actions/actions';
@@ -9,6 +9,8 @@ class CheeseDetail extends React.Component {
 
   deleteCheese = (cheese) => {
     this.props.dispatchDeleteCheese(cheese)
+    alert("You've deleted " + cheese.name + "!")
+    this.props.navigation.navigate('Cheeses')
   }
 
   render() {
@@ -21,6 +23,7 @@ class CheeseDetail extends React.Component {
         </View>
         <View style={styles.line}/>
         <Text style={styles.cheeseDesc} > {global.selectedCheese.description} </Text>
+        <Text style={styles.cheeseOrg} > {global.selectedCheese.origin} </Text>
         <TouchableHighlight style={styles.button}>
           <Text style={styles.buttonText} onPress={() => this.deleteCheese(global.selectedCheese)}>Delete me</Text>
         </TouchableHighlight>
@@ -38,6 +41,10 @@ const styles = StyleSheet.create({
     fontSize: 45,
     fontFamily: 'Avenir-Roman',
     marginTop: 40,
+  },
+  tinyLogo: {
+    width: 50,
+    height: 50,
   },
   button: {
     backgroundColor: '#F7BF7F',
@@ -57,8 +64,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   cheeseDesc: {
-    fontSize: 15,
+    fontSize: 20,
     marginLeft: 30,
+    marginRight: 30,
+    fontFamily: 'Avenir-Roman',
+  },
+  cheeseOrg: {
+    fontSize: 12,
+    margin: 30,
     fontFamily: 'Avenir-Roman',
   },
   thumb: {

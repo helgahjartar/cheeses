@@ -12,7 +12,7 @@ import { createAppContainer } from 'react-navigation';
 const store = createStore(cheeseApp);
 
 const AppNavigator = createStackNavigator({
-  Home: {
+  Cheeses: {
     screen: Cheeses
   },
   CheeseDetail: {
