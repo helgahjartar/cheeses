@@ -1,0 +1,6 @@
+module Pods_cheeses_cheesesTests {
+  umbrella header "Pods-cheeses-cheesesTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
