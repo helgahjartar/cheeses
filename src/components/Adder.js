@@ -15,20 +15,27 @@ class Adder extends React.Component {
     name: '',
     description: '',
   }
+
   addCheese = () => {
-    if (this.state.inputValue === '') return;
+    if (this.state.name === '' || this.state.description  === '' ) {
+      alert("Please fill out both name and description of cheese")
+      return;
+    }
     this.props.dispatchAddCheese({
       name: this.state.name,
       description: this.state.description,
     });
     this.setState({ name: '', description: ''});
   }
+
   updateInputName = (name) => {
     this.setState({ name })
   }
+
   updateInputDescription = (description) => {
     this.setState({ description })
   }
+
   render() {
     return (
       <View style={styles.container}>
@@ -59,12 +66,11 @@ class Adder extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
     padding: 20,
   },
   title: {
     fontSize: 22,
-    textAlign: 'center',
+    fontFamily: 'Avenir-Roman',
   },
   input: {
     backgroundColor: '#e4e4e4',
@@ -74,7 +80,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   button: {
-    backgroundColor: '#ff9900',
+    backgroundColor: '#F7BF7F',
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
@@ -83,6 +89,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
+    fontFamily: 'Avenir-Roman',
   },
 });
 

@@ -7,45 +7,59 @@ import {
   TextInput,
   TouchableHighlight,
   Image,
+  ScrollView,
 } from 'react-native';
 import UserAvatar from 'react-native-user-avatar';
 import Searcher from './Searcher';
 import Adder from './Adder';
+import { selectCheese} from '../actions/actions';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 
 class Cheeses extends React.Component {
   constructor() {
     super();
+    global.selectedCheese = '';
     this.state = {
         show: false,
+        menuTitle: 'Cheese Menu',
         search: ''
       };
   }
 
-  ShowHideComponent = () => {
+  selectCheese = (cheese) => {
+    this.props.dispatchSelectCheese(cheese)
+  }
+
+  showHideMenu = () => {
     if (this.state.show == true) {
-      this.setState({ show: false });
+      this.setState({ show: false, menuTitle: 'Cheese Menu' });
     } else {
-      this.setState({ show: true });
+      this.setState({ show: true, menuTitle: 'Close Menu' });
     }
   };
-
-  getFirstLetter(name) {
-    return name.charAt(0)
-  }
 
   filterList(cheeseList) {
     return cheeseList.filter(cheeseItem => cheeseItem.name.toLowerCase().includes(this.state.search.toLowerCase()));
   }
 
+  setCheese(cheese) {
+    global.selectedCheese = cheese;
+    return this.props.navigation.navigate('CheeseDetail');
+  }
+
   render() {
     const cheeseList = this.props.cheeses;
-
     return (
+      <ScrollView>
       <View style={styles.container}>
       <Text style={styles.title}>Cheeses</Text>
+      <TouchableHighlight style={styles.button}>
+        <Text style={styles.buttonText} onPress={this.showHideMenu}>{this.state.menuTitle}</Text>
+      </TouchableHighlight>
         {this.state.show ? (
           <View>
+          <View style={styles.line}/>
             <View style={styles.searchContainer}>
               <Text style={styles.searchTitle}>1. Search for your favorite cheese</Text>
               <TextInput
@@ -54,20 +68,20 @@ class Cheeses extends React.Component {
               />
             </View>
             <Adder/>
+            <View style={styles.line}/>
           </View>
         ) : null}
         {this.filterList(cheeseList).map((cheeseItem, index) => (
           <View key={index} style={styles.cheeseContainer}>
-            <View style={styles.cheese}>
-            <UserAvatar size={40} name= {this.getFirstLetter(cheeseItem.name)} />
-            <Text style={styles.cheeseTitle}> {cheeseItem.name} </Text>
+            <View style={styles.cheese} >
+              <UserAvatar size={40} name= {cheeseItem.name.charAt(0)} />
+              <Text style={styles.cheeseTitle} onPress={() => this.setCheese(cheeseItem)}> {cheeseItem.name} </Text>
             </View>
             <Text style={styles.cheeseDesc} > {cheeseItem.description}</Text>
-          </View>        ))}
-        <TouchableHighlight style={styles.button}>
-          <Text style={styles.buttonText} onPress={this.ShowHideComponent}>Got Cheese?</Text>
-        </TouchableHighlight>
+          </View>
+        ))}
       </View>
+      </ScrollView>
     )
   }
 }
@@ -79,10 +93,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Avenir-Roman',
   },
   title: {
-    fontSize: 40,
+    fontSize: 50,
     textAlign: 'center',
     fontFamily: 'Avenir-Roman',
-    marginTop: 30,
+    marginTop: 15,
   },
   input: {
     backgroundColor: '#e4e4e4',
@@ -92,7 +106,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   button: {
-    backgroundColor: '#ff9904',
+    backgroundColor: '#F7BF7F',
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
@@ -115,10 +129,12 @@ const styles = StyleSheet.create({
   cheeseTitle: {
     fontSize: 25,
     marginLeft: 5,
+    fontFamily: 'Avenir-Roman',
   },
   cheeseDesc: {
     fontSize: 15,
     marginLeft: 50,
+    fontFamily: 'Avenir-Roman',
   },
   searchBar: {
     backgroundColor: '#e4e4e4',
@@ -129,12 +145,19 @@ const styles = StyleSheet.create({
   },
   searchTitle: {
     fontSize: 22,
-    textAlign: 'center',
     fontFamily: 'Avenir-Roman',
-    marginTop: 30,
+    marginTop: 10,
   },
   searchContainer: {
     padding: 20,
+  },
+  line: {
+    borderBottomColor: 'grey',
+    borderBottomWidth: 1,
+    marginTop: 15,
+    marginBottom: 10,
+    marginLeft: 30,
+    marginRight: 30,
   }
 });
 
@@ -146,8 +169,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    dispatchAddCheese: (cheese) => dispatch(addCheese(cheese)),
-    dispatchdeleteCheese: (cheese) => dispatch(deleteCheese(cheese))
+    dispatchSelectCheese: (cheese) => dispatch(selectCheese(cheese))
   }
 }
 
