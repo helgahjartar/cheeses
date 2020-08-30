@@ -32,7 +32,7 @@ class Cheeses extends React.Component {
 
   showHideMenu = () => {
     if (this.state.show == true) {
-      this.setState({ show: false, menuTitle: 'Cheese Menu' });
+      this.setState({ show: false, menuTitle: 'Cheese Menu', search: '' });
     } else {
       this.setState({ show: true, menuTitle: 'Close Menu' });
     }
